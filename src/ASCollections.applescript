@@ -68,6 +68,9 @@ script Map
 	
 	on removeValue(aKey)
 	end removeValue
+	
+	on keys()
+	end keys
 end script
 
 on makeMap()
@@ -125,6 +128,14 @@ on makeMap()
 				error "No value for key: " & aKey	
 			end if
 		end removeValue
+		
+		on keys()
+			set keys to { }
+			repeat with aKeyValuePair in values
+				set end of keys to item 1 in aKeyValuePair
+			end repeat
+			return keys
+		end keys
 	end script
 end makeMap
 
