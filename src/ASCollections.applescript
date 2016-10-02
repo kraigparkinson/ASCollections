@@ -146,177 +146,172 @@ script iList
 	end indexOf
 end script
 
-script ArrayList
-	property parent : iList
+on createArrayListWithValues(values)
+	script ArrayList
+		property parent : iList
 	 
-	property listValues : { }
+		property listValues : values
 	
-	on iterator()
-		script ArrayListIterator
-			property listIndex : 0
-			property lastItem : missing value
+		on iterator()
+			script ArrayListIterator
+				property listIndex : 0
+				property lastItem : missing value
 			
-			on hasNext()
-				return (listIndex < count of listValues)
-			end hasNext
+				on hasNext()
+					return (listIndex < count of listValues)
+				end hasNext
 
-			on next()
-				set listIndex to listIndex + 1
-				set lastItem to item listIndex of listValues
-				return lastItem
-			end next
+				on next()
+					set listIndex to listIndex + 1
+					set lastItem to item listIndex of listValues
+					return lastItem
+				end next
 
-			on remove()
-				my remove(lastItem)
-			end remove
-		end 
-		return ArrayListIterator
-	end iterator
+				on remove()
+					my remove(lastItem)
+				end remove
+			end 
+			return ArrayListIterator
+		end iterator
 	
-	on containsElement(element)
-		log "START" & space & "containsElement(" & element & ")" 
+		on containsElement(element)
+			log "START" & space & "containsElement(" & element & ")" 
 
-		set doesContainElement to false
-		
-		repeat with listItem in listValues
-			log "Checking list item, >>" & listItem & "<< against >>" & element & "<<" 
-			if (element equals listItem's contents) then 
---			if (listItem equals element) then 
-				log "yes " & element
-				set doesContainElement to true
-				exit repeat
-			else
-				log "not " & element
-			end if
-		end repeat
-
-		log "STOP" & space & "containsElement_" & doesContainElement
-		return doesContainElement
---		*)
-		
---		set theResult to ( listValues contains { element's contents } )
---		log "STOP" & space & "containsElement(" & element & ")" & theResult
---		return theResult
-	end containsElement
-
-	on containsAll(aCollection)
---		set itr to aCollection's iterator
-		
---		repeat while itr's hasNext() 
---			set nextItem to itr's next()'s contents
---			if (not containsElement(nextItem)) then return false 
---		end repeat			
-		
---		return true
-		return aCollection's listValues contains element
-	end containsAll
-
-	on itemCount()
-		return count of listValues
-	end itemCount
-
-	on add(anElement)
-		set end of listValues to anElement
-		return true
-	end add
-
-	on addAll(aCollection)
-		set changedList to false
-		
-		set itr to aCollection's iterator()
-		
-		repeat while itr's hasNext()
-			if (add(itr's next()'s contents)) then set changedList to true
-		end repeat
-		
-		return changedList
-	end addAll
-
-	on remove(itemToDelete)
---		if (containsElement(itemToDelete)) then
-			set modifiedList to false
-			
-			set newValues to { }
-			
-			repeat with listElement in listValues
-				if (listElement's contents is not itemToDelete)
-					set end of newValues to listElement's contents
-				else
-					set modifiedList to true
-				end 
-			end repeat
-			
-			set listValues to newValues
-			
-			return modifiedList
---		else 
---			return false
---		end if 
-	end remove
-
-	on removeAll(aCollection)
-		set listHasChanged to false
-		
-		set itr to aCollection's iterator()
-		
-		repeat while itr's hasNext()
-			if (remove(itr's next()'s contents)) then set listHasChanged to true
-		end repeat
-		
-		return listHasChanged
-	end removeAll
-
-	on retainAll(aCollection)
-		set listHasChanged to false
-		set newValues to { }
-		
-		set itr to aCollection's iterator()
-		
-		repeat while itr's hasNext()
-			set anItem to itr's next()'s contents
-			
-			if (containsElement(anItem)) then set newValues to newValues & { anItem } 
-		end repeat
-		set listValues to newValues
-		
-		return listHasChanged
-	end retainAll
-
-	on indexOf(anElement)
-		log "Checking for index of " & anElement
-		if (containsElement(anElement))
-			set indexValue to 0
+			set doesContainElement to false
 		
 			repeat with listItem in listValues
-				
-				set indexValue to indexValue + 1
+				log "Checking list item, >>" & listItem & "<< against >>" & element & "<<" 
+				if (element equals listItem's contents) then 
+	--			if (listItem equals element) then 
+					log "yes " & element
+					set doesContainElement to true
+					exit repeat
+				else
+					log "not " & element
+				end if
+			end repeat
+
+			log "STOP" & space & "containsElement_" & doesContainElement
+			return doesContainElement
+	--		*)
+		
+	--		set theResult to ( listValues contains { element's contents } )
+	--		log "STOP" & space & "containsElement(" & element & ")" & theResult
+	--		return theResult
+		end containsElement
+
+		on containsAll(aCollection)
+	--		set itr to aCollection's iterator
+		
+	--		repeat while itr's hasNext() 
+	--			set nextItem to itr's next()'s contents
+	--			if (not containsElement(nextItem)) then return false 
+	--		end repeat			
+		
+	--		return true
+			return aCollection's listValues contains element
+		end containsAll
+
+		on itemCount()
+			return count of listValues
+		end itemCount
+
+		on add(anElement)
+			set end of listValues to anElement
+			return true
+		end add
+
+		on addAll(aCollection)
+			set changedList to false
+		
+			set itr to aCollection's iterator()
+		
+			repeat while itr's hasNext()
+				if (add(itr's next()'s contents)) then set changedList to true
+			end repeat
+		
+			return changedList
+		end addAll
+
+		on remove(itemToDelete)
+	--		if (containsElement(itemToDelete)) then
+				set modifiedList to false
 			
-				log "inspecting index of " & listItem
-				
-				if (listItem's contents equals anElement) then exit repeat
-			end repeat	
+				set newValues to { }
 			
-			return indexValue		
-		else
-			return -1
-		end if
-	end indexOf
+				repeat with listElement in listValues
+					if (listElement's contents is not itemToDelete)
+						set end of newValues to listElement's contents
+					else
+						set modifiedList to true
+					end 
+				end repeat
+			
+				set listValues to newValues
+			
+				return modifiedList
+	--		else 
+	--			return false
+	--		end if 
+		end remove
+
+		on removeAll(aCollection)
+			set listHasChanged to false
+		
+			set itr to aCollection's iterator()
+		
+			repeat while itr's hasNext()
+				if (remove(itr's next()'s contents)) then set listHasChanged to true
+			end repeat
+		
+			return listHasChanged
+		end removeAll
+
+		on retainAll(aCollection)
+			set listHasChanged to false
+			set newValues to { }
+		
+			set itr to aCollection's iterator()
+		
+			repeat while itr's hasNext()
+				set anItem to itr's next()'s contents
+			
+				if (containsElement(anItem)) then set newValues to newValues & { anItem } 
+			end repeat
+			set listValues to newValues
+		
+			return listHasChanged
+		end retainAll
+
+		on indexOf(anElement)
+			log "Checking for index of " & anElement
+			if (containsElement(anElement))
+				set indexValue to 0
+		
+				repeat with listItem in listValues
+				
+					set indexValue to indexValue + 1
+			
+					log "inspecting index of " & listItem
+				
+					if (listItem's contents equals anElement) then exit repeat
+				end repeat	
+			
+				return indexValue		
+			else
+				return -1
+			end if
+		end indexOf
 	
-	on clear()
-		set listValues to { }
-	end clear
-end script
-
-
-on createArrayListWithValues(values)
-	set aList to createArrayList()
-	set aList's listValues to values
-	return aList 
+		on clear()
+			set listValues to { }
+		end clear
+	end script
+	return ArrayList
 end createArrayListWithValues
 
 on createArrayList()
-	copy ArrayList to aList
-	return aList
+	return createArrayListWithValues({})
 end createArrayList
 
 script Stack

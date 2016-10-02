@@ -29,7 +29,7 @@ script BuildCollections
 	property name : "ddd"
 	property description : "Build ASCollections"
 	
-	makeScriptBundle from "src/ASCollections.applescript" at "build" with overwriting
+	makeScriptBundle from "src/ASCollections.applescript" at "build/Script Libraries/com.kraigparkinson" with overwriting
 end script
 
 script build
@@ -111,7 +111,7 @@ script installScriptLibraries
 	end installWithOverwriteAlert
 	
 	tell BuildCollections to exec:{}
-	installWithOverwriteAlert("ASCollections", "com.kraigparkinson")
+	installWithOverwriteAlert("Script Libraries/com.kraigparkinson/ASCollections", "com.kraigparkinson")
 end script
 
 script install
